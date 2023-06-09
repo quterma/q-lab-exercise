@@ -1,0 +1,75 @@
+.history-table {
+	width: 100%;
+	padding-top: 30px;
+}
+
+.history-up {
+	width: 0;
+	height: 0;
+	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
+	border-bottom: 7px solid grey;
+}
+
+.history-down {
+	width: 0;
+	height: 0;
+	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
+	border-top: 7px solid grey;
+}
+
+.history-up.history-active {
+	border-bottom: 7px solid black;
+}
+
+.history-down.history-active {
+	border-top: 7px solid black;
+}
+
+.history-button {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.history-th {
+	display: flex;
+	gap: 5px;
+	align-items: center;
+	justify-content: flex-start;
+	cursor: pointer;
+	padding: 2px 0;
+}
+
+.history-thead {
+	border: 1px solid red;
+	background-color: rgba(224, 223, 223, 0.5);
+}
+
+.history-green {
+	color: green;
+}
+
+.history-red {
+	color: red;
+}
+
+.history-td {
+	padding: 7px 0;
+	text-align: left;
+}
+
+table {
+	border-collapse: collapse;
+	margin-top: 10px;
+}
+
+table tr {
+	border: 1px solid grey;
+}
+
+table tr td,
+table tr th {
+	padding: 7px 5px;
+}

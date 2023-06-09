@@ -1,0 +1,18 @@
+.header {
+	display: flex;
+	padding: 1rem 2rem;
+	gap: 1.5rem;
+}
+
+.tab {
+	color: rgb(128, 128, 128, 0.8);
+	font-size: 1.25rem;
+	font-weight: 500;
+	padding: 4px 0;
+	cursor: pointer;
+}
+
+.active {
+	color: #000000;
+	border-bottom: 3px solid #0c95d5;
+}

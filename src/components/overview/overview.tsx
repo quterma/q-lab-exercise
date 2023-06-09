@@ -3,59 +3,55 @@ import "./overview.css";
 import { useRef } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import { ETabs } from "../../App";
 
 type Props = {
-	data: {
+	dataType: ETabs;
+	companies: {
 		name: string;
 		data: number;
 		country: string;
 	}[];
 };
-export const Overview = ({ data }: Props) => {
-	console.log("OverviewData", data);
-
+export const Overview = ({ dataType, companies }: Props) => {
 	const chartComponentRef = useRef<HighchartsReact.RefObject>(null);
 
-	// @ts-ignore
-	const options: Highcharts.chart = {
-		title: {
-			text: null,
-		},
+	const options: Highcharts.Options = {
 		accessibility: {
 			enabled: false,
 		},
 		yAxis: {
 			title: {
-				text: "",
+				text: null,
 			},
-			opposite: true,
+		},
+		xAxis: {
+			categories: companies.map(({ name, country }) => `${name} - ${country}`),
+		},
+		tooltip: {
+			pointFormat: `<span style="color:#50B432;padding:0">{series.name}:</span> <span>${
+				dataType === ETabs.ROI ? "{point.y}%" : "{point.y}"
+			}</span>`,
+			useHTML: true,
+		},
+		plotOptions: {
+			column: {
+				colorByPoint: true,
+			},
 		},
 		series: [
 			{
-				name: "",
-				type: "area",
-				fillColor: {
-					linearGradient: {
-						x1: 0,
-						y1: 0,
-						x2: 0,
-						y2: 1,
-					},
-					stops: [
-						// @ts-ignore
-						[0, Highcharts.getOptions().colors[0]],
-						// @ts-ignore
-						[1, Highcharts.color(Highcharts.getOptions().colors[0]).setOpacity(0).get("rgba")],
-					],
-				},
-				threshold: null,
+				type: "column",
+				name: dataType,
+				data: companies.map(company => company.data),
 			},
 		],
+		legend: {
+			enabled: false,
+		},
 	};
 
-	options.series[0].data = data.map(company => company.data);
-
-	return data.length ? (
+	return companies.length ? (
 		<HighchartsReact highcharts={Highcharts} options={options} ref={chartComponentRef} />
 	) : (
 		<div className="noData">No data</div>

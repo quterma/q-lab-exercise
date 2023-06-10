@@ -5,7 +5,7 @@ import { Loader } from "./components/loader";
 import { Tabs } from "./components/tabs";
 import { Overview } from "./components/overview";
 import { inPercents } from "./helpers";
-import { History } from "./components/history";
+import { GridTable } from "./components/grid-table";
 
 export enum ETabs {
 	Installs = "Installs",
@@ -84,7 +84,7 @@ function App() {
 				<Loader />
 			) : (
 				<Tabs activeTab={activeTab} setActiveTab={setActiveTab} config={tabConfig}>
-					<History rows={rows} />
+					<GridTable rows={rows} />
 				</Tabs>
 			)}
 		</div>

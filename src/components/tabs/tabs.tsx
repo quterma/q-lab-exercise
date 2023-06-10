@@ -21,8 +21,8 @@ export const Tabs = ({ config, activeTab, setActiveTab, children }: Props) => {
 					);
 				})}
 			</div>
-			{activeTab ? <div>{config[activeTab].component}</div> : null}
-			{children}
+			<div className="component">{activeTab ? <div>{config[activeTab].component}</div> : null}</div>
+			<div className="component">{children}</div>
 		</>
 	);
 };

@@ -4,6 +4,10 @@
 	gap: 1.5rem;
 }
 
+.component {
+	padding: 0.25rem 2rem;
+}
+
 .tab {
 	color: rgb(128, 128, 128, 0.8);
 	font-size: 1.25rem;

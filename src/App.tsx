@@ -25,6 +25,37 @@ function App() {
 	const [companies, setCompanies] = useState<Company[]>([]);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [isError, setIsError] = useState<boolean>(false);
+	const [sortColumn, setSortColumn] = useState<keyof Row>("display_name");
+	const [isUp, setIsUp] = useState<boolean>(false);
+	const [filters, setFilters] = useState<Record<keyof Row, string>>({} as Record<keyof Row, string>);
+
+	const handleSort = (col: keyof Row) => {
+		if (col === sortColumn) {
+			setIsUp(isUp => !isUp);
+		} else {
+			setSortColumn(col);
+		}
+	};
+
+	const dataSort = (row1: Row, row2: Row) => {
+		if (row1[sortColumn] > row2[sortColumn]) return isUp ? 1 : -1;
+		if (row1[sortColumn] < row2[sortColumn]) return isUp ? -1 : 1;
+		return 0;
+	};
+
+	const handleFilter = (key: keyof Row, value: string) => {
+		setFilters(() => ({ ...filters, [key]: value }));
+	};
+
+	const dataFilter = (row: Row) => {
+		if (filters[ETabs.Installs] && row[ETabs.Installs] < Number(filters[ETabs.Installs])) return false;
+		if (filters[ETabs.ROI] && row[ETabs.ROI] < Number(filters[ETabs.ROI])) return false;
+		if (filters.industry_roi && row.industry_roi < Number(filters.industry_roi)) return false;
+		if (filters.display_name && !row.display_name.toLowerCase().includes(filters.display_name.toLowerCase()))
+			return false;
+		if (filters.country && !row.country.toLowerCase().includes(filters.country.toLowerCase())) return false;
+		return true;
+	};
 
 	useEffect(() => {
 		setIsLoading(true);
@@ -52,12 +83,9 @@ function App() {
 				};
 			})
 		)
-		.flat();
-
-	// const filterRows = (rows: Row[]) => (({ field, value }: {field: string; value: string | number}) => {
-
-	// }
-	console.log(rows);
+		.flat()
+		.filter(dataFilter)
+		.sort(dataSort);
 
 	const tabConfig = Object.entries(ETabs).reduce((acc, [key, title]) => {
 		const overviewData = rows.slice(0, 5).map(company => ({
@@ -84,7 +112,13 @@ function App() {
 				<Loader />
 			) : (
 				<Tabs activeTab={activeTab} setActiveTab={setActiveTab} config={tabConfig}>
-					<GridTable rows={rows} />
+					<GridTable
+						rows={rows}
+						handleSort={handleSort}
+						handleFilter={handleFilter}
+						sortColumn={sortColumn}
+						isUp={isUp}
+					/>
 				</Tabs>
 			)}
 		</div>

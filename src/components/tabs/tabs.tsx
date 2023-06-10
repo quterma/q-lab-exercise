@@ -22,7 +22,9 @@ export const Tabs = ({ config, activeTab, setActiveTab, children }: Props) => {
 				})}
 			</div>
 			<div className="component">{activeTab ? <div>{config[activeTab].component}</div> : null}</div>
-			<div className="component">{children}</div>
+			<div className="component" style={{ maxHeight: "25%" }}>
+				{children}
+			</div>
 		</>
 	);
 };
